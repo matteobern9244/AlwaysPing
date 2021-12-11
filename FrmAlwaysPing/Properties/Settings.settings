@@ -6,7 +6,7 @@
       <Value Profile="(Default)">C:\Users\matte\Desktop</Value>
     </Setting>
     <Setting Name="FileName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">PING.txt</Value>
+      <Value Profile="(Default)">PING</Value>
     </Setting>
   </Settings>
 </SettingsFile>

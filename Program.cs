@@ -25,13 +25,13 @@ namespace AlwaysPing
                     System.Threading.Thread.Sleep(5000);
                     try
                     {
-                        using (StreamWriter sw = File.AppendText(finalPath))
-                        {
-                            if (!string.IsNullOrEmpty(resPing))
-                                sw.WriteLine(resPing);
-                            if (!string.IsNullOrEmpty(exception))
-                                sw.WriteLine($"ECCEZIONE {DateTime.Now} : " + exception);
-                        }
+                        //using (StreamWriter sw = File.AppendText(finalPath))
+                        //{
+                        //    if (!string.IsNullOrEmpty(resPing))
+                        //        sw.WriteLine(resPing);
+                        //    if (!string.IsNullOrEmpty(exception))
+                        //        sw.WriteLine($"ECCEZIONE {DateTime.Now} : " + exception);
+                        //}
                     }
                     catch (Exception) { }
                 }

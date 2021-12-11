@@ -1,23 +1,101 @@
-﻿using System.IO;
+﻿using System;
+using System.ComponentModel;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FrmAlwaysPing
 {
     public partial class FrmProg : Form
     {
+        static string path = Properties.Settings.Default.DefaultPath;
+        static string file = Properties.Settings.Default.FileName;
+        static string ext = ".txt";
+
+        private CancellationTokenSource _tokenSource;
+
         public FrmProg()
         {
             InitializeComponent();
-            ControlFile();
+            SetSettings();
+
         }
 
-        private void ControlFile()
+        private void SetSettings()
         {
-            var path = Properties.Settings.Default.DefaultPath;
-            var file = Properties.Settings.Default.FileName;
-            var finalPath = Path.Combine(path, file);
+            string finalPath = Path.Combine(path, file + ext);
             if (!File.Exists(finalPath))
                 File.Create(finalPath);
+
+            txtNameFile.Text = file;
+            txtPath.Text = path;
+            txtSitePing.Text = "www.google.com";
+        }
+
+        private void btnFolderDialog_Click(object sender, System.EventArgs e)
+        {
+            FolderBrowserDialog fld = new FolderBrowserDialog
+            {
+                ShowNewFolderButton = true
+            };
+
+            DialogResult res = fld.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                txtPath.Text = fld.SelectedPath;
+                path = txtPath.Text;
+            }
+        }
+
+        private async void btnStartPing_ClickAsync(object sender, System.EventArgs e)
+        {
+            btnStartPing.Visible = false;
+            btnStopPing.Visible = true;
+            Application.DoEvents();
+
+            string nameFile = txtNameFile.Text.Trim();
+            string path = txtPath.Text.Trim();
+            string fullPath = Path.Combine(path, nameFile + ext);
+
+            if (_tokenSource != null)
+                return;
+
+            _tokenSource = new CancellationTokenSource();
+            var ct = _tokenSource.Token;
+
+            await Task.Factory.StartNew(() =>
+            {
+                for (; ; )
+                {
+                    if (ct.IsCancellationRequested)
+                        break;
+                    doSomething();
+                }
+            }, ct);
+
+            _tokenSource = null;
+        }
+
+        private void doSomething()
+        {
+            Invoke((Action)(() =>
+            {
+                System.Console.WriteLine("PROVA");
+            }));
+        }
+
+        private void btnStopPing_Click(object sender, EventArgs e)
+        {
+            if (_tokenSource == null)
+                return;
+
+            _tokenSource.Cancel();
+
+            btnStopPing.Visible = false;
+            btnStartPing.Visible = true;
+            Application.DoEvents();
+            Console.WriteLine("FINE");
         }
     }
 }

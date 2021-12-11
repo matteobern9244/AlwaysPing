@@ -34,7 +34,7 @@ namespace FrmAlwaysPing.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("PING.txt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("PING")]
         public string FileName {
             get {
                 return ((string)(this["FileName"]));
