@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +18,6 @@ namespace FrmAlwaysPing
         {
             InitializeComponent();
             SetSettings();
-
         }
 
         private void SetSettings()
@@ -81,7 +79,7 @@ namespace FrmAlwaysPing
         {
             Invoke((Action)(() =>
             {
-                System.Console.WriteLine("PROVA");
+                Console.WriteLine("PROVA");
             }));
         }
 
@@ -92,10 +90,14 @@ namespace FrmAlwaysPing
 
             _tokenSource.Cancel();
 
+            ResetForm();
+        }
+
+        private void ResetForm()
+        {
             btnStopPing.Visible = false;
             btnStartPing.Visible = true;
-            Application.DoEvents();
-            Console.WriteLine("FINE");
+            Application.DoEvents();            
         }
     }
 }
