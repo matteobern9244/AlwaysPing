@@ -25,19 +25,22 @@ namespace FrmAlwaysPing.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\matte\\Desktop\\PING.txt")]
-        public string FinalPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\matte\\Desktop")]
+        public string DefaultPath {
             get {
-                return ((string)(this["FinalPath"]));
+                return ((string)(this["DefaultPath"]));
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("PING.txt")]
-        public string NameFile {
+        public string FileName {
             get {
-                return ((string)(this["NameFile"]));
+                return ((string)(this["FileName"]));
+            }
+            set {
+                this["FileName"] = value;
             }
         }
     }

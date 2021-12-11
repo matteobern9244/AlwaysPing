@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
 
 namespace FrmAlwaysPing
@@ -14,11 +13,11 @@ namespace FrmAlwaysPing
 
         private void ControlFile()
         {
-            var path = Properties.Settings.Default.FinalPath;
-            var file = Properties.Settings.Default.NameFile;
+            var path = Properties.Settings.Default.DefaultPath;
+            var file = Properties.Settings.Default.FileName;
             var finalPath = Path.Combine(path, file);
             if (!File.Exists(finalPath))
-                File.Create(finalPath);             
+                File.Create(finalPath);
         }
     }
 }
