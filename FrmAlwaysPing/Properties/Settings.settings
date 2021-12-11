@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FrmAlwaysPing.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FinalPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Users\matte\Desktop\PING.txt</Value>
+    </Setting>
+    <Setting Name="NameFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">PING.txt</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

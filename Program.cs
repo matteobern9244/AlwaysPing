@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlwaysPing
 {
@@ -12,14 +8,6 @@ namespace AlwaysPing
     {
         static void Main(string[] args)
         {
-            string pathDektop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string nameFile = "PING.txt";
-           
-            string finalPath = Path.Combine(pathDektop, nameFile);
-
-            if (!File.Exists(finalPath))
-                File.Create(finalPath);
-
             while (true)
             {
                 string resPing = "";
@@ -30,24 +18,23 @@ namespace AlwaysPing
                 }
                 catch (Exception e)
                 {
-                    exception = e.Message;   
+                    exception = e.Message;
                 }
                 finally
                 {
                     System.Threading.Thread.Sleep(5000);
-                    WriteFile(finalPath, resPing, exception);
+                    try
+                    {
+                        using (StreamWriter sw = File.AppendText(finalPath))
+                        {
+                            if (!string.IsNullOrEmpty(resPing))
+                                sw.WriteLine(resPing);
+                            if (!string.IsNullOrEmpty(exception))
+                                sw.WriteLine($"ECCEZIONE {DateTime.Now} : " + exception);
+                        }
+                    }
+                    catch (Exception) { }
                 }
-            }
-        }
-
-        static void WriteFile(string finalPath, string resPing, string exception)
-        {
-            using (StreamWriter sw = File.AppendText(finalPath))
-            {
-                if (!string.IsNullOrEmpty(resPing))
-                    sw.WriteLine(resPing);
-                if (!string.IsNullOrEmpty(exception))
-                    sw.WriteLine($"ECCEZIONE {DateTime.Now} : " + exception);
             }
         }
 
