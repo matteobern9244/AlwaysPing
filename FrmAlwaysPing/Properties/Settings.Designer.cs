@@ -32,15 +32,30 @@ namespace FrmAlwaysPing.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("PING")]
-        public string FileName {
+        public string DefaultFileName {
             get {
-                return ((string)(this["FileName"]));
+                return ((string)(this["DefaultFileName"]));
             }
-            set {
-                this["FileName"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("www.google.com")]
+        public string DefaultSite {
+            get {
+                return ((string)(this["DefaultSite"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".txt")]
+        public string DefaultExtFile {
+            get {
+                return ((string)(this["DefaultExtFile"]));
             }
         }
     }

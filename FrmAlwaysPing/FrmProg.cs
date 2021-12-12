@@ -9,10 +9,6 @@ namespace FrmAlwaysPing
 {
     public partial class FrmProg : Form
     {
-        static string path = Properties.Settings.Default.DefaultPath;
-        static string file = Properties.Settings.Default.FileName;
-        static string ext = ".txt";
-
         private CancellationTokenSource _tokenSource;
 
         public FrmProg()
@@ -23,9 +19,9 @@ namespace FrmAlwaysPing
 
         private void SetSettings()
         {
-            txtNameFile.Text = file;
-            txtPath.Text = path;
-            txtSitePing.Text = "www.google.com";
+            txtPath.Text = Properties.Settings.Default.DefaultPath;
+            txtNameFile.Text = Properties.Settings.Default.DefaultFileName;
+            txtSitePing.Text = Properties.Settings.Default.DefaultSite;
         }
 
         private void btnFolderDialog_Click(object sender, System.EventArgs e)
@@ -39,12 +35,12 @@ namespace FrmAlwaysPing
             if (res == DialogResult.OK)
             {
                 txtPath.Text = fld.SelectedPath;
-                path = txtPath.Text;
             }
         }
 
         private async void btnStartPing_ClickAsync(object sender, System.EventArgs e)
         {
+            string ext = Properties.Settings.Default.DefaultExtFile;
             btnStartPing.Visible = false;
             btnStopPing.Visible = true;
             lblPing.Visible = true;
@@ -54,10 +50,10 @@ namespace FrmAlwaysPing
             string path = txtPath.Text.Trim();
             string fullPath = Path.Combine(path, nameFile + ext);
 
-            if (!nameFile.Equals(Properties.Settings.Default.FileName))
+            if (!nameFile.Equals(Properties.Settings.Default.DefaultFileName))
             {
                 string pathDefault = Properties.Settings.Default.DefaultPath;
-                string fileDefault = Properties.Settings.Default.FileName;
+                string fileDefault = Properties.Settings.Default.DefaultFileName;
                 string fullPathDefault = Path.Combine(pathDefault, fileDefault + ext);
 
                 if (File.Exists(fullPathDefault))
@@ -140,6 +136,7 @@ namespace FrmAlwaysPing
             lblPing.Visible = false;
             Application.DoEvents();
         }
+
         private string PingGoogle()
         {
             string result = "";
