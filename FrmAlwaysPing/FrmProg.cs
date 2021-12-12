@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -50,6 +51,7 @@ namespace FrmAlwaysPing
         {
             btnStartPing.Visible = false;
             btnStopPing.Visible = true;
+            lblPing.Visible = true;
             Application.DoEvents();
 
             string nameFile = txtNameFile.Text.Trim();
@@ -68,18 +70,47 @@ namespace FrmAlwaysPing
                 {
                     if (ct.IsCancellationRequested)
                         break;
-                    doSomething();
+                    PingAlways();
+                    Thread.Sleep(5000);
                 }
             }, ct);
 
             _tokenSource = null;
         }
 
-        private void doSomething()
+        private void PingAlways()
         {
             Invoke((Action)(() =>
             {
-                Console.WriteLine("PROVA");
+                string finalPath = Path.Combine(path, file + ext);
+
+                string resPing = "";
+                string exception = "";
+                try
+                {
+                    resPing = PingGoogle();
+                }
+                catch (Exception e)
+                {
+                    exception = e.Message;
+                }
+                finally
+                {
+                    try
+                    {
+                        using (StreamWriter sw = File.AppendText(finalPath))
+                        {
+                            if (!string.IsNullOrEmpty(resPing))
+                                sw.WriteLine(resPing);
+                            if (!string.IsNullOrEmpty(exception))
+                                sw.WriteLine($"ECCEZIONE {DateTime.Now} : " + exception);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show($"Eccezione : {e.Message} riavviare il programma.");
+                    }
+                }
             }));
         }
 
@@ -97,7 +128,36 @@ namespace FrmAlwaysPing
         {
             btnStopPing.Visible = false;
             btnStartPing.Visible = true;
-            Application.DoEvents();            
+            lblPing.Visible = false;
+            Application.DoEvents();
+        }
+        private string PingGoogle()
+        {
+            string result = "";
+
+            try
+            {
+                var ping = new Ping();
+                var s = txtSitePing.Text.Trim();
+                var r = ping.Send(s);
+
+                if (r.Status == IPStatus.Success)
+                {
+                    result = $"{DateTime.Now} Ping to " + s.ToString() + "[" + r?.Address?.ToString() + "]" + " Successful"
+                       + " Response delay = " + r?.RoundtripTime.ToString() + " ms" + "\n";
+                }
+                else
+                {
+                    result = $"{DateTime.Now} Ping to " + s.ToString() + "[" + r?.Address?.ToString() + "]" + " Failed" +
+                        " Status : " + r?.Status +
+                       " Response delay = " + r?.RoundtripTime.ToString() + " ms" + "\n";
+                }
+            }
+            catch (Exception e)
+            {
+                result += $"{DateTime.Now} -- eccezione : {e.Message}";
+            }
+            return result;
         }
     }
 }

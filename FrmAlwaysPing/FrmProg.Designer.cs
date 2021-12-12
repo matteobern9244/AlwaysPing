@@ -38,6 +38,7 @@
             this.txtSitePing = new System.Windows.Forms.TextBox();
             this.btnStartPing = new System.Windows.Forms.Button();
             this.btnStopPing = new System.Windows.Forms.Button();
+            this.lblPing = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -103,7 +104,7 @@
             // 
             // btnStartPing
             // 
-            this.btnStartPing.Location = new System.Drawing.Point(12, 134);
+            this.btnStartPing.Location = new System.Drawing.Point(12, 145);
             this.btnStartPing.Name = "btnStartPing";
             this.btnStartPing.Size = new System.Drawing.Size(500, 32);
             this.btnStartPing.TabIndex = 7;
@@ -113,7 +114,7 @@
             // 
             // btnStopPing
             // 
-            this.btnStopPing.Location = new System.Drawing.Point(12, 134);
+            this.btnStopPing.Location = new System.Drawing.Point(12, 145);
             this.btnStopPing.Name = "btnStopPing";
             this.btnStopPing.Size = new System.Drawing.Size(500, 32);
             this.btnStopPing.TabIndex = 8;
@@ -122,11 +123,24 @@
             this.btnStopPing.Visible = false;
             this.btnStopPing.Click += new System.EventHandler(this.btnStopPing_Click);
             // 
+            // lblPing
+            // 
+            this.lblPing.AutoSize = true;
+            this.lblPing.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPing.ForeColor = System.Drawing.Color.Red;
+            this.lblPing.Location = new System.Drawing.Point(189, 120);
+            this.lblPing.Name = "lblPing";
+            this.lblPing.Size = new System.Drawing.Size(143, 19);
+            this.lblPing.TabIndex = 9;
+            this.lblPing.Text = "PING IN CORSO...";
+            this.lblPing.Visible = false;
+            // 
             // FrmProg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(524, 172);
+            this.ClientSize = new System.Drawing.Size(524, 189);
+            this.Controls.Add(this.lblPing);
             this.Controls.Add(this.btnStopPing);
             this.Controls.Add(this.btnStartPing);
             this.Controls.Add(this.txtSitePing);
@@ -159,6 +173,7 @@
         private System.Windows.Forms.TextBox txtSitePing;
         private System.Windows.Forms.Button btnStartPing;
         private System.Windows.Forms.Button btnStopPing;
+        private System.Windows.Forms.Label lblPing;
     }
 }
 
