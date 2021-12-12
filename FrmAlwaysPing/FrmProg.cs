@@ -23,10 +23,6 @@ namespace FrmAlwaysPing
 
         private void SetSettings()
         {
-            string finalPath = Path.Combine(path, file + ext);
-            if (!File.Exists(finalPath))
-                File.Create(finalPath);
-
             txtNameFile.Text = file;
             txtPath.Text = path;
             txtSitePing.Text = "www.google.com";
@@ -58,6 +54,19 @@ namespace FrmAlwaysPing
             string path = txtPath.Text.Trim();
             string fullPath = Path.Combine(path, nameFile + ext);
 
+            if (!nameFile.Equals(Properties.Settings.Default.FileName))
+            {
+                string pathDefault = Properties.Settings.Default.DefaultPath;
+                string fileDefault = Properties.Settings.Default.FileName;
+                string fullPathDefault = Path.Combine(pathDefault, fileDefault + ext);
+
+                if (File.Exists(fullPathDefault))
+                    File.Delete(fullPathDefault);
+            }
+
+            if (!File.Exists(fullPath))
+                File.Create(fullPath).Close();
+
             if (_tokenSource != null)
                 return;
 
@@ -70,7 +79,9 @@ namespace FrmAlwaysPing
                 {
                     if (ct.IsCancellationRequested)
                         break;
-                    PingAlways();
+
+                    PingAlways(fullPath);
+
                     Thread.Sleep(5000);
                 }
             }, ct);
@@ -78,12 +89,10 @@ namespace FrmAlwaysPing
             _tokenSource = null;
         }
 
-        private void PingAlways()
+        private void PingAlways(string fullPath)
         {
             Invoke((Action)(() =>
             {
-                string finalPath = Path.Combine(path, file + ext);
-
                 string resPing = "";
                 string exception = "";
                 try
@@ -98,7 +107,7 @@ namespace FrmAlwaysPing
                 {
                     try
                     {
-                        using (StreamWriter sw = File.AppendText(finalPath))
+                        using (StreamWriter sw = File.AppendText(fullPath))
                         {
                             if (!string.IsNullOrEmpty(resPing))
                                 sw.WriteLine(resPing);
