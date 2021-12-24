@@ -93,7 +93,7 @@ namespace FrmAlwaysPing
                 string exception = "";
                 try
                 {
-                    resPing = PingGoogle();
+                    resPing = PingToSite();
                 }
                 catch (Exception e)
                 {
@@ -137,7 +137,7 @@ namespace FrmAlwaysPing
             Application.DoEvents();
         }
 
-        private string PingGoogle()
+        private string PingToSite()
         {
             string result = "";
 
