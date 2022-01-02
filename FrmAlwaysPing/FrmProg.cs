@@ -26,12 +26,12 @@ namespace FrmAlwaysPing
 
         private void btnFolderDialog_Click(object sender, System.EventArgs e)
         {
-            FolderBrowserDialog fld = new FolderBrowserDialog
+            var fld = new FolderBrowserDialog
             {
                 ShowNewFolderButton = true
             };
 
-            DialogResult res = fld.ShowDialog();
+            var res = fld.ShowDialog();
             if (res == DialogResult.OK)
             {
                 txtPath.Text = fld.SelectedPath;
@@ -40,21 +40,21 @@ namespace FrmAlwaysPing
 
         private async void btnStartPing_ClickAsync(object sender, System.EventArgs e)
         {
-            string ext = Properties.Settings.Default.DefaultExtFile;
+            var ext = Properties.Settings.Default.DefaultExtFile;
             btnStartPing.Visible = false;
             btnStopPing.Visible = true;
             lblPing.Visible = true;
             Application.DoEvents();
 
-            string nameFile = txtNameFile.Text.Trim();
-            string path = txtPath.Text.Trim();
-            string fullPath = Path.Combine(path, nameFile + ext);
+            var nameFile = txtNameFile.Text.Trim();
+            var path = txtPath.Text.Trim();
+            var fullPath = Path.Combine(path, nameFile + ext);
 
             if (!nameFile.Equals(Properties.Settings.Default.DefaultFileName))
             {
-                string pathDefault = Properties.Settings.Default.DefaultPath;
-                string fileDefault = Properties.Settings.Default.DefaultFileName;
-                string fullPathDefault = Path.Combine(pathDefault, fileDefault + ext);
+                var pathDefault = Properties.Settings.Default.DefaultPath;
+                var fileDefault = Properties.Settings.Default.DefaultFileName;
+                var fullPathDefault = Path.Combine(pathDefault, fileDefault + ext);
 
                 if (File.Exists(fullPathDefault))
                     File.Delete(fullPathDefault);
@@ -89,8 +89,8 @@ namespace FrmAlwaysPing
         {
             Invoke((Action)(() =>
             {
-                string resPing = "";
-                string exception = "";
+                var resPing = "";
+                var exception = "";
                 try
                 {
                     resPing = PingToSite();
@@ -103,7 +103,7 @@ namespace FrmAlwaysPing
                 {
                     try
                     {
-                        using (StreamWriter sw = File.AppendText(fullPath))
+                        using (var sw = File.AppendText(fullPath))
                         {
                             if (!string.IsNullOrEmpty(resPing))
                                 sw.WriteLine(resPing);
@@ -139,7 +139,7 @@ namespace FrmAlwaysPing
 
         private string PingToSite()
         {
-            string result = "";
+            var result = "";
 
             try
             {
@@ -147,7 +147,7 @@ namespace FrmAlwaysPing
                 var s = txtSitePing.Text.Trim();
                 var r = ping.Send(s);
 
-                if (r.Status == IPStatus.Success)
+                if (r != null && r.Status == IPStatus.Success)
                 {
                     result = $"{DateTime.Now} Ping to " + s.ToString() + "[" + r?.Address?.ToString() + "]" + " Successful"
                        + " Response delay = " + r?.RoundtripTime.ToString() + " ms" + "\n";
