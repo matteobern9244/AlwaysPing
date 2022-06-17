@@ -19,7 +19,7 @@ namespace FrmAlwaysPing
 
         private void SetSettings()
         {
-            txtPath.Text = Properties.Settings.Default.DefaultPath;
+            txtPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             txtNameFile.Text = Properties.Settings.Default.DefaultFileName;
             txtSitePing.Text = Properties.Settings.Default.DefaultSite;
         }
@@ -31,8 +31,7 @@ namespace FrmAlwaysPing
                 ShowNewFolderButton = true
             };
 
-            var res = fld.ShowDialog();
-            if (res == DialogResult.OK)
+            if (fld.ShowDialog() == DialogResult.OK)
             {
                 txtPath.Text = fld.SelectedPath;
             }
@@ -52,7 +51,7 @@ namespace FrmAlwaysPing
 
             if (!nameFile.Equals(Properties.Settings.Default.DefaultFileName))
             {
-                var pathDefault = Properties.Settings.Default.DefaultPath;
+                var pathDefault = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 var fileDefault = Properties.Settings.Default.DefaultFileName;
                 var fullPathDefault = Path.Combine(pathDefault, fileDefault + ext);
 
