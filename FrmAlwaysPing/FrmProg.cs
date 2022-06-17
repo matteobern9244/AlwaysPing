@@ -4,6 +4,7 @@ using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FrmAlwaysPing.Properties;
 
 namespace FrmAlwaysPing
 {
@@ -14,72 +15,78 @@ namespace FrmAlwaysPing
         public FrmProg()
         {
             InitializeComponent();
-            SetSettings();
+            SetDefaultSettings();
         }
 
-        private void SetSettings()
+        private void SetDefaultSettings()
         {
             txtPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            txtNameFile.Text = Properties.Settings.Default.DefaultFileName;
-            txtSitePing.Text = Properties.Settings.Default.DefaultSite;
+            txtNameFile.Text = Settings.Default.DefaultFileName;
+            txtSitePing.Text = Settings.Default.DefaultSite;
         }
 
-        private void btnFolderDialog_Click(object sender, System.EventArgs e)
+        private void btnFolderDialog_Click(object sender, EventArgs e)
         {
-            var fld = new FolderBrowserDialog
-            {
-                ShowNewFolderButton = true
-            };
+            var fld = new FolderBrowserDialog { ShowNewFolderButton = true };
 
-            if (fld.ShowDialog() == DialogResult.OK)
-            {
+            if (fld.ShowDialog() == DialogResult.OK) 
                 txtPath.Text = fld.SelectedPath;
-            }
         }
 
-        private async void btnStartPing_ClickAsync(object sender, System.EventArgs e)
+
+        private async void btnStartPing_ClickAsync(object sender, EventArgs e)
         {
-            var ext = Properties.Settings.Default.DefaultExtFile;
-            btnStartPing.Visible = false;
-            btnStopPing.Visible = true;
-            lblPing.Visible = true;
+            var extFile = Settings.Default.DefaultExtFile;
+
+            if (btnStartPing != null) btnStartPing.Visible = false;
+            if (btnStopPing != null) btnStopPing.Visible = true;
+            if (lblPing != null) lblPing.Visible = true;
+
             Application.DoEvents();
 
-            var nameFile = txtNameFile.Text.Trim();
-            var path = txtPath.Text.Trim();
-            var fullPath = Path.Combine(path, nameFile + ext);
-
-            if (!nameFile.Equals(Properties.Settings.Default.DefaultFileName))
+            if (txtNameFile != null)
             {
-                var pathDefault = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                var fileDefault = Properties.Settings.Default.DefaultFileName;
-                var fullPathDefault = Path.Combine(pathDefault, fileDefault + ext);
-
-                if (File.Exists(fullPathDefault))
-                    File.Delete(fullPathDefault);
-            }
-
-            if (!File.Exists(fullPath))
-                File.Create(fullPath).Close();
-
-            if (_tokenSource != null)
-                return;
-
-            _tokenSource = new CancellationTokenSource();
-            var ct = _tokenSource.Token;
-
-            await Task.Factory.StartNew(() =>
-            {
-                for (; ; )
+                var nameFile = txtNameFile.Text.Trim();
+                if (txtPath != null)
                 {
-                    if (ct.IsCancellationRequested)
-                        break;
+                    var path = txtPath.Text.Trim();
+                    {
+                        var fullPath = Path.Combine(path, $"{nameFile}{extFile}");
 
-                    PingAlways(fullPath);
+                        if (!nameFile.Equals(Settings.Default.DefaultFileName))
+                        {
+                            var pathDefault = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            var fileDefault = Settings.Default.DefaultFileName;
+                            var fullPathDefault = Path.Combine(pathDefault, fileDefault + extFile);
 
-                    Thread.Sleep(5000);
+                            if (File.Exists(fullPathDefault))
+                                File.Delete(fullPathDefault);
+                        }
+
+                        if (!File.Exists(fullPath))
+                            File.Create(fullPath).Close();
+
+                        if (_tokenSource != null)
+                            return;
+
+                        _tokenSource = new CancellationTokenSource();
+                        var ct = _tokenSource.Token;
+
+                        await Task.Factory.StartNew(() =>
+                        {
+                            for (; ;)
+                            {
+                                if (ct.IsCancellationRequested)
+                                    break;
+
+                                PingAlways(fullPath);
+
+                                Thread.Sleep(5000);
+                            }
+                        }, ct);
+                    }
                 }
-            }, ct);
+            }
 
             _tokenSource = null;
         }
@@ -112,7 +119,7 @@ namespace FrmAlwaysPing
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show($"Eccezione : {e.Message} riavviare il programma.");
+                        if (e.Message != null) MessageBox.Show($@"Eccezione : {e.Message} riavviare il programma.");
                     }
                 }
             }));
@@ -130,32 +137,37 @@ namespace FrmAlwaysPing
 
         private void ResetForm()
         {
-            btnStopPing.Visible = false;
-            btnStartPing.Visible = true;
-            lblPing.Visible = false;
+            if (btnStopPing != null) btnStopPing.Visible = false;
+            if (btnStartPing != null) btnStartPing.Visible = true;
+            if (lblPing != null) lblPing.Visible = false;
+
             Application.DoEvents();
         }
 
         private string PingToSite()
         {
-            var result = "";
+            var result = string.Empty;
 
             try
             {
-                var ping = new Ping();
-                var s = txtSitePing.Text.Trim();
-                var r = ping.Send(s);
+                var textSitePing = txtSitePing.Text;
+                if (!string.IsNullOrEmpty(textSitePing))
+                {
+                    textSitePing = textSitePing.Trim();
 
-                if (r != null && r.Status == IPStatus.Success)
-                {
-                    result = $"{DateTime.Now} Ping to " + s.ToString() + "[" + r?.Address?.ToString() + "]" + " Successful"
-                       + " Response delay = " + r?.RoundtripTime.ToString() + " ms" + "\n";
-                }
-                else
-                {
-                    result = $"{DateTime.Now} Ping to " + s.ToString() + "[" + r?.Address?.ToString() + "]" + " Failed" +
-                        " Status : " + r?.Status +
-                       " Response delay = " + r?.RoundtripTime.ToString() + " ms" + "\n";
+                    var pingReply = new Ping().Send(textSitePing);
+                    if (pingReply != null && pingReply.Status == IPStatus.Success)
+                    {
+                        result = $"{DateTime.Now} Ping to " + textSitePing + " Successful" + 
+                                 " Response delay = " + (pingReply.RoundtripTime) + " ms" + "\n";
+                    }
+                    else
+                    {
+                        if (pingReply != null)
+                            result = $"{DateTime.Now} Ping to " + textSitePing + " Failed" +
+                                     " Status : " + pingReply.Status +
+                                     " Response delay = " + pingReply.RoundtripTime + " ms" + "\n";
+                    }
                 }
             }
             catch (Exception e)
