@@ -44,10 +44,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 14);
+            this.label1.Location = new System.Drawing.Point(17, 20);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 18);
+            this.label1.Size = new System.Drawing.Size(104, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Nome file :";
             // 
@@ -57,27 +57,27 @@
             this.label2.Location = new System.Drawing.Point(23, 56);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 18);
+            this.label2.Size = new System.Drawing.Size(93, 23);
             this.label2.TabIndex = 1;
             this.label2.Text = "Path file :";
             // 
             // txtNameFile
             // 
-            this.txtNameFile.Location = new System.Drawing.Point(102, 14);
+            this.txtNameFile.Location = new System.Drawing.Point(128, 20);
             this.txtNameFile.Name = "txtNameFile";
-            this.txtNameFile.Size = new System.Drawing.Size(202, 26);
+            this.txtNameFile.Size = new System.Drawing.Size(367, 30);
             this.txtNameFile.TabIndex = 2;
             // 
             // txtPath
             // 
-            this.txtPath.Location = new System.Drawing.Point(102, 53);
+            this.txtPath.Location = new System.Drawing.Point(128, 56);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(367, 26);
+            this.txtPath.Size = new System.Drawing.Size(367, 30);
             this.txtPath.TabIndex = 3;
             // 
             // btnFolderDialog
             // 
-            this.btnFolderDialog.Location = new System.Drawing.Point(475, 52);
+            this.btnFolderDialog.Location = new System.Drawing.Point(501, 54);
             this.btnFolderDialog.Name = "btnFolderDialog";
             this.btnFolderDialog.Size = new System.Drawing.Size(32, 26);
             this.btnFolderDialog.TabIndex = 4;
@@ -91,20 +91,20 @@
             this.label3.Location = new System.Drawing.Point(4, 95);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(91, 18);
+            this.label3.Size = new System.Drawing.Size(117, 23);
             this.label3.TabIndex = 5;
             this.label3.Text = "Sito o path :";
             // 
             // txtSitePing
             // 
-            this.txtSitePing.Location = new System.Drawing.Point(102, 95);
+            this.txtSitePing.Location = new System.Drawing.Point(128, 95);
             this.txtSitePing.Name = "txtSitePing";
-            this.txtSitePing.Size = new System.Drawing.Size(405, 26);
+            this.txtSitePing.Size = new System.Drawing.Size(405, 30);
             this.txtSitePing.TabIndex = 6;
             // 
             // btnStartPing
             // 
-            this.btnStartPing.Location = new System.Drawing.Point(12, 145);
+            this.btnStartPing.Location = new System.Drawing.Point(33, 173);
             this.btnStartPing.Name = "btnStartPing";
             this.btnStartPing.Size = new System.Drawing.Size(500, 32);
             this.btnStartPing.TabIndex = 7;
@@ -114,7 +114,7 @@
             // 
             // btnStopPing
             // 
-            this.btnStopPing.Location = new System.Drawing.Point(12, 145);
+            this.btnStopPing.Location = new System.Drawing.Point(33, 173);
             this.btnStopPing.Name = "btnStopPing";
             this.btnStopPing.Size = new System.Drawing.Size(500, 32);
             this.btnStopPing.TabIndex = 8;
@@ -128,18 +128,18 @@
             this.lblPing.AutoSize = true;
             this.lblPing.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPing.ForeColor = System.Drawing.Color.Red;
-            this.lblPing.Location = new System.Drawing.Point(187, 124);
+            this.lblPing.Location = new System.Drawing.Point(196, 146);
             this.lblPing.Name = "lblPing";
-            this.lblPing.Size = new System.Drawing.Size(143, 19);
+            this.lblPing.Size = new System.Drawing.Size(180, 24);
             this.lblPing.TabIndex = 9;
             this.lblPing.Text = "PING IN CORSO...";
             this.lblPing.Visible = false;
             // 
             // FrmProg
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 189);
+            this.ClientSize = new System.Drawing.Size(594, 217);
             this.Controls.Add(this.lblPing);
             this.Controls.Add(this.btnStopPing);
             this.Controls.Add(this.btnStartPing);
