@@ -35,4 +35,4 @@ jobs:
       with:
         # Artifact name
         name: AlwaysPing
-        path: AlwaysPing/bin/Debug
+        path: FrmAlwaysPing/bin/Debug
